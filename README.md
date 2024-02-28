@@ -1,2 +1,2 @@
-# CoList
-CoList: Beyond the Checklist
+# ClickList
+ClickList: Beyond the Checklist
