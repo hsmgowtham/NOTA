@@ -4,7 +4,11 @@ from rest_framework import permissions, viewsets  # type: ignore
 from rest_framework import generics
 
 
-from .serializers import RegisterUserSerializer, ChangePasswordSerializer
+from .serializers import (
+    RegisterUserSerializer,
+    ChangePasswordSerializer,
+    UpdateProfileSerializer,
+)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -23,6 +27,19 @@ class ChangePasswordView(generics.UpdateAPIView):
     """
 
     serializer_class = ChangePasswordSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        user_id = self.kwargs.get("pk")
+        return get_object_or_404(User, pk=user_id)
+
+
+class UpdateProfileView(generics.UpdateAPIView):
+    """
+    API endpoint that allows users to update their profile
+    """
+
+    serializer_class = UpdateProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
