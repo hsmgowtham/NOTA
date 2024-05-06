@@ -1,11 +1,11 @@
 # accounts/urls.py
 from django.urls import path, include
-from rest_framework import routers
+from rest_framework import routers # type: ignore
 from . import views
-from rest_framework_simplejwt.views import (
+from rest_framework_simplejwt.views import ( # type: ignore
     TokenObtainPairView,
     TokenRefreshView,
-)
+) 
 
 router = routers.DefaultRouter()
 router.register(r"users", views.UserViewSet)
