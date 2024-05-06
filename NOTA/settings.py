@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "accounts",
+    "corsheaders",
     "rest_framework",
+    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "NOTA.urls"
@@ -135,7 +137,11 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=35),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=35),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=15),
-    "ROTATE_REFRESH_TOKENS": True, # User Doesn't have to login back if they visit in the period of REFRESH_TOKEN_LIFETIME(15 days)
+    "ROTATE_REFRESH_TOKENS": True,  # User Doesn't have to login back if they visit in the period of REFRESH_TOKEN_LIFETIME(15 days)
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
