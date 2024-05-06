@@ -1,5 +1,5 @@
 from django.contrib.auth.models import Group, User
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets # type: ignore
 
 from .serializers import GroupSerializer, UserSerializer
 
