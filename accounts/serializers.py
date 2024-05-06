@@ -1,21 +1,48 @@
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
+from django.contrib.auth.password_validation import validate_password
+
 
 from django.utils import timezone
 
-class UserSerializer(serializers.ModelSerializer):
+
+class RegisterUserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(
+        required=True, validators=[UniqueValidator(queryset=User.objects.all())]
+    )
+    password = serializers.CharField(
+        write_only=True, required=True, validators=[validate_password]
+    )
+    password2 = serializers.CharField(write_only=True, required=True)
+
     class Meta:
         model = User
-        # fields = ['url', 'username', 'first_name', 'email', 'groups']
         fields = "__all__"
-    
+        extra_kwargs = {
+            "first_name": {"required": True},
+            "last_name": {"required": True},
+        }
+
+    def validate(self, attrs):
+        if attrs["password"] != attrs["password2"]:
+            raise serializers.ValidationError(
+                {"password": "Password Fields Didn't Match"}
+            )
+        return attrs
+
     def create(self, validated_data):
         # Update the date_joined field to the current UTC time if not provided
-        if 'date_joined' not in validated_data:
-            validated_data['date_joined'] = timezone.now()
+        if "date_joined" not in validated_data:
+            validated_data["date_joined"] = timezone.now()
+        
+        # password2 is just for validation/confirmation of password, and won't be stored in DB
+        del validated_data["password2"]
+
         return super().create(validated_data)
-    
-class GroupSerializer(serializers.ModelSerializer): 
+
+
+class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ['url', 'name']
+        fields = ["url", "name"]
