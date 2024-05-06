@@ -1,7 +1,10 @@
 from django.contrib.auth.models import Group, User
+from django.shortcuts import get_object_or_404
 from rest_framework import permissions, viewsets  # type: ignore
+from rest_framework import generics
 
-from .serializers import GroupSerializer, RegisterUserSerializer
+
+from .serializers import RegisterUserSerializer, ChangePasswordSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -14,11 +17,14 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class ChangePasswordView(generics.UpdateAPIView):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint that allows users to update their password
     """
 
-    queryset = Group.objects.all().order_by("name")
-    serializer_class = GroupSerializer
+    serializer_class = ChangePasswordSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        user_id = self.kwargs.get("pk")
+        return get_object_or_404(User, pk=user_id)

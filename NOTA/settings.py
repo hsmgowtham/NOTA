@@ -135,6 +135,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=35),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=15),
     "ROTATE_REFRESH_TOKENS": True, # User Doesn't have to login back if they visit in the period of REFRESH_TOKEN_LIFETIME(15 days)
 }
