@@ -24,5 +24,7 @@ urlpatterns = [
         views.UpdateProfileView.as_view(),
         name="account_update_profile",
     ),
+    path("logout/", views.LogoutView.as_view(), name="account_logout"),
+    path("logout_all/", views.LogoutAllView.as_view(), name="account_logout_all"),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]
