@@ -7,6 +7,4 @@ router.register(r"list_labels", views.ListLabelViewSet)
 router.register(r"user_lists", views.UserListsViewSet)
 router.register(r"list_share", views.ListShareViewSet)
 
-urlpatterns = [
-    path("", include(router.urls))
-]
+urlpatterns = [path("", include(router.urls))]
