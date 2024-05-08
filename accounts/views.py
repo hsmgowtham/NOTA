@@ -36,6 +36,10 @@ class ChangePasswordView(generics.UpdateAPIView):
 
     serializer_class = ChangePasswordSerializer
     permission_classes = [permissions.IsAuthenticated]
+    def get_queryset(self):
+        if getattr(self, 'swagger_fake_view', False):
+        # queryset just for schema generation metadata
+            return User.objects.none()
 
     def get_object(self):
         user_id = self.kwargs.get("pk")
@@ -49,6 +53,10 @@ class UpdateProfileView(generics.UpdateAPIView):
 
     serializer_class = UpdateProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
+    def get_queryset(self):
+        if getattr(self, 'swagger_fake_view', False):
+        # queryset just for schema generation metadata
+            return User.objects.none()
 
     def get_object(self):
         user_id = self.kwargs.get("pk")
